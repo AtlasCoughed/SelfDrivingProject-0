@@ -21,12 +21,14 @@ Now, remember our field of concentration, we pair our mask to only focus on the 
 
 Finally, we apply our Hough transformation. Thhis algorithm determines if there is enough evidence of a straight line at that pixel. Once we have our two master lines, we can average our line image with the original, unaltered image of the road to have a nice, smooth overlay. complete = cv2.addWeighted(initial_img, alpha, line_image, beta, lambda).
 
-
+------------------------------------------------------------------------------------------------------------------------
 2. Identify potential shortcomings with your current pipeline
 
 One potential shortcoming would be what would happen when the car is driving in on roads with construction. A good example is the 101 near Palo Alto right now. The road has different lane markers. Also, the asphalt changes color and height, which could affect the edge detection.
 
 Another shortcoming could be weather conditions. The lack thereof reducundancy sensors. 
+
+------------------------------------------------------------------------------------------------------------------------
 
 3. Suggest possible improvements to your pipeline
 
