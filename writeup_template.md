@@ -1,47 +1,35 @@
-# **Finding Lane Lines on the Road** 
-
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
+Finding Lane Lines on the Road
 
 The goals / steps of this project are the following:
-* Make a pipeline that finds lane lines on the road
-* Reflect on your work in a written report
+
+Make a pipeline that finds lane lines on the road
+Reflect on your work in a written report
+Reflection
+
+#Description of Pipeline
+
+The first portion of my pipeline is the analysis and setup parameters. We have to first read the images size and determine the size of the image. We tried to create my pipeline so that it was somewhat dynamic, allowing a wider range of image size. This certainly could be improved upon. This is what would become our field of concentration.
+
+The first step to our image processing begins with grayscaling our image. This is it reduce the amoung of 'noise' in our image, allowing us to find edges more accurately. Since we are looking for lanes specifically, we should isolate the image for the colors, white and yellow. We filter everything out except pixels matching our target colors.
+
+Now, we can apply a Gaussian blur (also known as Gaussian smoothing) to our image. It is a widely used effect in graphics software, typically to reduce image noise and reduce detail, by averaging the pixels.
+
+This is where we can finally apply our Canny Line Detection - edge detection algorithm.
+In essence, the library (canny()) pulls out the pixels values according to their gradient (directional derivative). The remainder of the image are the edges, exactly what we are lookign for. These edges are found where there is a large deviation in at least one direction.
+
+Now, remember our field of concentration, we pair our mask to only focus on the area where there should be lane lines.
+
+Finally, we apply our Hough transformation. Thhis algorithm determines if there is enough evidence of a straight line at that pixel. Once we have our two master lines, we can average our line image with the original, unaltered image of the road to have a nice, smooth overlay. complete = cv2.addWeighted(initial_img, alpha, line_image, beta, lambda).
 
 
-[//]: # (Image References)
+2. Identify potential shortcomings with your current pipeline
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+One potential shortcoming would be what would happen when the car is driving in on roads with construction. A good example is the 101 near Palo Alto right now. The road has different lane markers. Also, the asphalt changes color and height, which could affect the edge detection.
 
----
+Another shortcoming could be weather conditions. The lack thereof reducundancy sensors. 
 
-### Reflection
+3. Suggest possible improvements to your pipeline
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+A possible improvement would be to take into consideration weather, or different light conditions.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
-
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
-
-![alt text][image1]
-
-
-### 2. Identify potential shortcomings with your current pipeline
-
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
-
-### 3. Suggest possible improvements to your pipeline
-
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+Another potential improvement could be to extrapolate the lane direction, by using the edge of the road, the lane's average width over the last 30 minutes, and use it to measure from the left edge. This would have another set of overlaid lines, acting a secondary guide.
